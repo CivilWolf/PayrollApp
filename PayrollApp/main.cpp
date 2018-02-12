@@ -55,7 +55,7 @@ float FindFICA(float tPay, int nAllow, bool single)
 	{ 9,2,0,0,0,0,0,0,0,0,0 },
 	{ 9,2,0,0,0,0,0,0,0,0,0 }
 	};
-	answer = wHold[nAllow][FindSelector(tPay)];//wHold[nAllow][FindSelector(tPay)];
+	answer = wHold[FindSelector(tPay)][nAllow];//wHold[nAllow][FindSelector(tPay)];
 	return answer;
 }
 class Employee
