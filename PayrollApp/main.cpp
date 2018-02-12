@@ -5,20 +5,57 @@
 #include <conio.h>
 using namespace std;
 
-float FindFICA(float tPay, int nDep, bool single)
+
+int FindSelector(float tPay)
 {
+	int counter = 1;
+	int inc = 5;
+
+	if (tPay >= 0 && tPay <= 55)
+	{return 0;}
+
+
+
+	for (int i = 60; i <= 1250; i += inc)
+	{
+		if (tPay > 200)
+			inc = 10;
+		if (tPay > i-inc && tPay < i)
+		{
+			return counter;
+		}
+		counter++;
+	}
+
+	return -1;
+}
+
+float FindFICA(float tPay, int nAllow, bool single)
+{
+	int selector = 0;
 	float answer = 0;
 
-	int wHold[11][130] =
+	int wHold[130][11] =
 	{
-		0,0,0,0,2,0,0,0,0,0,0,
-		1,0,0,0,0,0,0,0,0,0,0,
-		1,0,0,0,0,0,0,0,0,0,0,
-		2,0,0,0,0,0,0,0,0,0,0,
+	{ 0,0,0,0,0,0,0,0,0,0,0 },
+	{ 2,0,0,0,0,0,0,0,0,0,0 },
+	{ 2,0,0,0,0,0,0,0,0,0,0 },
+	{ 3,0,0,0,0,0,0,0,0,0,0 },
+	{ 3,0,0,0,0,0,0,0,0,0,0 },
+	{ 4,0,0,0,0,0,0,0,0,0,0 },
+	{ 4,0,0,0,0,0,0,0,0,0,0 },
+	{ 5,0,0,0,0,0,0,0,0,0,0 },
+	{ 5,0,0,0,0,0,0,0,0,0,0 },
+	{ 6,0,0,0,0,0,0,0,0,0,0 },
+	{ 6,0,0,0,0,0,0,0,0,0,0 },
+	{ 7,0,0,0,0,0,0,0,0,0,0 },
+	{ 7,0,0,0,0,0,0,0,0,0,0 },
+	{ 8,1,0,0,0,0,0,0,0,0,0 },
+	{ 8,1,0,0,0,0,0,0,0,0,0 },
+	{ 9,2,0,0,0,0,0,0,0,0,0 },
+	{ 9,2,0,0,0,0,0,0,0,0,0 }
 	};
-
-
-
+	answer = wHold[nAllow][FindSelector(tPay)];//wHold[nAllow][FindSelector(tPay)];
 	return answer;
 }
 class Employee
