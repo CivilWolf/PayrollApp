@@ -180,7 +180,7 @@ int main()
 	float SS = .062, MC = .0145;
 	float overTimeLimit = 40;
 
-	Employee e("Bob Winkersmear");
+	Employee e("Employee");
 
 	//
 	//PrintArray(wHold);
