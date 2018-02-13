@@ -5,7 +5,7 @@
 #include <conio.h>
 #include <fstream>
 
-#include "FICA.h"
+#include "extras.h"
 using namespace std;
 const int MAX_ROWS = 136;
 const int MAX_COLUMNS = 11;
@@ -56,7 +56,6 @@ void PrintArray(int(&myarray)[MAX_S][MAX_ROWS][MAX_COLUMNS])
 		cout << endl;
 	}
 }
-
 int FindSelector(float gPay,bool married)
 {
 	int counter = 1;
@@ -105,7 +104,6 @@ int FindSelector(float gPay,bool married)
 
 	return -1;
 }
-
 float FindFICA(float gPay, int nAllow, bool single)
 {
 	int answer = 0;
@@ -172,15 +170,16 @@ public:
 	}
 };
 
-
 int main()
 {
+	//HWND console = GetConsoleWindow();
+	//HDC dc = GetDC(console);
 	bool quit = false;
 	FillArray(wHold);
 	float SS = .062, MC = .0145;
 	float overTimeLimit = 40;
 
-	Employee e("Billy");
+	Employee e("Bob Winkersmear");
 
 	//
 	//PrintArray(wHold);
@@ -193,7 +192,7 @@ int main()
 		cin >> e.hWeek;
 		cout << "\nPlease enter " << e.name << "'s marital status: \n";
 		cin >> e.married;
-		cout << "\nPlease enter " << e.name << "'s Allowances: \n";
+		cout << "\nPlease enter " << e.name << "'s allowances: \n";
 		cin >> e.nAllow;
 
 		if (e.hWeek > overTimeLimit)
@@ -215,7 +214,7 @@ int main()
 		cout << "SS: " << e.tSS << endl;
 		cout << "MC: " << e.tMC << endl << endl;
 		cout << "Total Deductions: " << e.totDed << endl << endl;
-		cout << "Net Pay: " << e.netPay << endl << endl;
+		cout << "Net Pay: $" << e.netPay << endl << endl;
 		cout << setprecision(0);
 		cout << "-[ESC] to quit-" << endl;
 		cout << "Press any button..." << endl;
@@ -224,6 +223,7 @@ int main()
 			quit = true;
 		}
 		cout << endl;
+		//cls(&dc);
 	}
 
 	return 0;
