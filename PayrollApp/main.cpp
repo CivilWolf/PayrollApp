@@ -45,8 +45,19 @@ int FillArray(int (&myarray)[MAX_S][MAX_ROWS][MAX_COLUMNS])
 		}
 	}
 }
+void PrintArray(int(&myarray)[MAX_S][MAX_ROWS][MAX_COLUMNS])
+{
+	for (int i = 0; i < MAX_ROWS; i++)
+	{
+		for (int p = 0; p < MAX_COLUMNS; p++)
+		{
+			cout << myarray[1][i][p] << " ";
+		}
+		cout << endl;
+	}
+}
 
-int FindSelector(float tPay,bool single)
+int FindSelector(float gPay,bool married)
 {
 	int counter = 1;
 	int inc = 5;
@@ -57,7 +68,7 @@ int FindSelector(float tPay,bool single)
 	int switchlimit = 200;
 
 
-	if (single = true)
+	if (married == false)
 	{
 		start = 75;
 		start2 = 80;
@@ -76,17 +87,17 @@ int FindSelector(float tPay,bool single)
 
 
 
-	if (tPay >= 0 && tPay <= start)
+	if (gPay >= 0 && gPay < start)
 	{return 0;}
-
-
 
 	for (int i = start2; i <= endv; i += inc)
 	{
-		if (tPay > switchlimit)
+		if (i >= switchlimit)
 			inc = 10;
-		if (tPay > i-inc && tPay < i)
+		if (gPay >= i - inc && gPay < i)
 		{
+			cout << "\nBetween: " << i - inc << "-"<< i;
+			cout << "\nCounter: " << counter << endl;
 			return counter;
 		}
 		counter++;
@@ -95,11 +106,10 @@ int FindSelector(float tPay,bool single)
 	return -1;
 }
 
-float FindFICA(float tPay, int nAllow, bool single)
+float FindFICA(float gPay, int nAllow, bool single)
 {
-	int selector = 0;
-	float answer = 0;
-	answer = wHold[single][nAllow][FindSelector(tPay, single)];//wHold[nAllow][FindSelector(tPay)];
+	int answer = 0;
+	answer = wHold[single][FindSelector(gPay, single)][nAllow];//wHold[nAllow][FindSelector(gPay)];
 	return answer;
 }
 class Employee
@@ -114,7 +124,7 @@ public:
 	float totalPay, underPay, overPay, tSS, tMC, tFICA;
 
 	int nAllow;
-	bool single;
+	bool married;
 
 	string name;
 
@@ -122,13 +132,13 @@ public:
 	{
 		name = "N/A";
 		hWeek = 0; oWeek = 0; pHour = 0; totalPay = 0; underPay = 0; overPay = 0; tSS = 0; tMC = 0; tFICA = 0;
-		nAllow = 0; single = false;
+		nAllow = 0; married = false;
 	}
 	Employee(string name)
 	{
 		this->name = name;
 		hWeek = 0; oWeek = 0; pHour = 0; totalPay = 0; underPay = 0; overPay = 0; tSS = 0; tMC = 0; tFICA = 0;
-		nAllow = 0; single = false;
+		nAllow = 0; married = false;
 	}
 	void update(float SS, float MC)
 	{
@@ -138,7 +148,7 @@ public:
 		overPay = oWeek * pHour*1.5;
 		totalPay = underPay + overPay;
 
-		tFICA = FindFICA(totalPay, nAllow, single);
+		tFICA = FindFICA(totalPay, nAllow, married);
 		tSS = totalPay * SS;
 		tMC = totalPay * MC;
 
@@ -153,45 +163,58 @@ public:
 
 int main()
 {
+	bool quit = false;
 	FillArray(wHold);
 	float SS = .062, MC = .0145;
 	float overTimeLimit = 40;
 
 	Employee e("Billy");
 
-	//Enter Hours
-	cout << "\nPlease enter " << e.name << "'s hourly income: \n";
-	cin >> e.pHour;
-	cout << "\nPlease enter " << e.name << "'s total hours this week: \n";
-	cin >> e.hWeek;
-	if (e.hWeek > overTimeLimit)
+	//
+	//PrintArray(wHold);
+	while (quit != true)
 	{
-		e.oWeek = e.hWeek - overTimeLimit;
-		e.hWeek = overTimeLimit;
+		//Enter Hours
+		cout << "\nPlease enter " << e.name << "'s hourly income: \n";
+		cin >> e.pHour;
+		cout << "\nPlease enter " << e.name << "'s total hours this week: \n";
+		cin >> e.hWeek;
+		cout << "\nPlease enter " << e.name << "'s marital status: \n";
+		cin >> e.married;
+
+		if (e.hWeek > overTimeLimit)
+		{
+			e.oWeek = e.hWeek - overTimeLimit;
+			e.hWeek = overTimeLimit;
+		}
+
+
+		//Totals Screen
+
+		cout << "\n" << e.name << "'s Totals\n----------\n";
+		e.update(SS, MC);
+
+
+		cout << "Regular Hours: " << e.hWeek << endl;
+		cout << "Overtime Hours: " << e.oWeek << endl << endl;
+		cout << fixed << setprecision(2);
+		cout << "Week Pay: $" << e.underPay << endl;
+		cout << "Overtime Pay: $" << e.overPay << endl;
+		cout << "Gross Pay: $" << e.totalPay << endl << endl;
+
+
+		cout << "FICA: " << e.tFICA << endl;
+		cout << "SS: " << e.tSS << endl;
+		cout << "MC: " << e.tMC << endl;
+
+		cout << setprecision(0);
+
+		cout << "test";
+		if (_getch() == 0x1B)
+		{
+			quit = true;
+		}
 	}
-
-	//Totals Screen
-
-	cout << "\n" << e.name << "'s Totals\n----------\n";
-	e.update(SS, MC);
-
-
-	cout << "Regular Hours: " << e.hWeek << endl;
-	cout << "Overtime Hours: " << e.oWeek << endl << endl;
-	cout << fixed << setprecision(2);
-	cout << "Week Pay: $" << e.underPay << endl;
-	cout << "Overtime Pay: $" << e.overPay << endl;
-	cout << "Total Pay: $" << e.totalPay << endl << endl;
-
-
-	cout << "FICA: " << e.tFICA << endl;
-	cout << "SS: " << e.tSS << endl;
-	cout << "MC: " << e.tMC << endl;
-
-	cout << setprecision(0);
-
-	cout << "test";
-	_getch();
 
 	return 0;
 }
