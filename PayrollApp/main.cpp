@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <conio.h>
+
+#include "FICA.h"
 using namespace std;
 
 
@@ -34,28 +36,7 @@ float FindFICA(float tPay, int nAllow, bool single)
 {
 	int selector = 0;
 	float answer = 0;
-
-	int wHold[130][11] =
-	{
-	{ 0,0,0,0,0,0,0,0,0,0,0 },
-	{ 2,0,0,0,0,0,0,0,0,0,0 },
-	{ 2,0,0,0,0,0,0,0,0,0,0 },
-	{ 3,0,0,0,0,0,0,0,0,0,0 },
-	{ 3,0,0,0,0,0,0,0,0,0,0 },
-	{ 4,0,0,0,0,0,0,0,0,0,0 },
-	{ 4,0,0,0,0,0,0,0,0,0,0 },
-	{ 5,0,0,0,0,0,0,0,0,0,0 },
-	{ 5,0,0,0,0,0,0,0,0,0,0 },
-	{ 6,0,0,0,0,0,0,0,0,0,0 },
-	{ 6,0,0,0,0,0,0,0,0,0,0 },
-	{ 7,0,0,0,0,0,0,0,0,0,0 },
-	{ 7,0,0,0,0,0,0,0,0,0,0 },
-	{ 8,1,0,0,0,0,0,0,0,0,0 },
-	{ 8,1,0,0,0,0,0,0,0,0,0 },
-	{ 9,2,0,0,0,0,0,0,0,0,0 },
-	{ 9,2,0,0,0,0,0,0,0,0,0 }
-	};
-	answer = wHold[FindSelector(tPay)][nAllow];//wHold[nAllow][FindSelector(tPay)];
+	answer = wHold[single][FindSelector(tPay)][nAllow];//wHold[nAllow][FindSelector(tPay)];
 	return answer;
 }
 class Employee
