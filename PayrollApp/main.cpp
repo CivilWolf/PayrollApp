@@ -44,6 +44,7 @@ int FillArray(int (&myarray)[MAX_S][MAX_ROWS][MAX_COLUMNS])
 			}
 		}
 	}
+	return 0;
 }
 void PrintArray(int(&myarray)[MAX_S][MAX_ROWS][MAX_COLUMNS])
 {
@@ -141,11 +142,11 @@ public:
 		nAllow = 0; married = false;
 		totDed = 0; netPay = 0;
 	}
-	Employee(string name,float pHour,bool married)
+	Employee(string name,float pHour,int nAllow,bool married)
 	{
 		this->name = name;
 		hWeek = 0; oWeek = 0; this->pHour = pHour; totalPay = 0; underPay = 0; overPay = 0; tSS = 0; tMC = 0; tFICA = 0;
-		nAllow = 0; this->married = married;
+		this->nAllow = nAllow; this->married = married;
 		totDed = 0; netPay = 0;
 	}
 	void update(float SS, float MC)
