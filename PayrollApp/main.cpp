@@ -96,8 +96,8 @@ int FindSelector(float gPay,bool married)
 			inc = 10;
 		if (gPay >= i - inc && gPay < i)
 		{
-			cout << "\nBetween: " << i - inc << "-"<< i;
-			cout << "\nCounter: " << counter << endl;
+			//cout << "\nBetween: " << i - inc << "-"<< i;
+			//cout << "\nCounter: " << counter << endl;
 			return counter;
 		}
 		counter++;
@@ -122,6 +122,7 @@ public:
 
 	//Totals
 	float totalPay, underPay, overPay, tSS, tMC, tFICA;
+	float totDed,netPay;
 
 	int nAllow;
 	bool married;
@@ -133,17 +134,24 @@ public:
 		name = "N/A";
 		hWeek = 0; oWeek = 0; pHour = 0; totalPay = 0; underPay = 0; overPay = 0; tSS = 0; tMC = 0; tFICA = 0;
 		nAllow = 0; married = false;
+		totDed = 0; netPay = 0;
 	}
 	Employee(string name)
 	{
 		this->name = name;
 		hWeek = 0; oWeek = 0; pHour = 0; totalPay = 0; underPay = 0; overPay = 0; tSS = 0; tMC = 0; tFICA = 0;
 		nAllow = 0; married = false;
+		totDed = 0; netPay = 0;
+	}
+	Employee(string name,float pHour,bool married)
+	{
+		this->name = name;
+		hWeek = 0; oWeek = 0; this->pHour = pHour; totalPay = 0; underPay = 0; overPay = 0; tSS = 0; tMC = 0; tFICA = 0;
+		nAllow = 0; this->married = married;
+		totDed = 0; netPay = 0;
 	}
 	void update(float SS, float MC)
 	{
-
-
 		underPay = hWeek * pHour;
 		overPay = oWeek * pHour*1.5;
 		totalPay = underPay + overPay;
@@ -151,6 +159,10 @@ public:
 		tFICA = FindFICA(totalPay, nAllow, married);
 		tSS = totalPay * SS;
 		tMC = totalPay * MC;
+
+		totDed = -(tFICA + tSS + tMC);
+
+		netPay = totalPay + totDed;
 
 	}
 
@@ -174,13 +186,15 @@ int main()
 	//PrintArray(wHold);
 	while (quit != true)
 	{
-		//Enter Hours
-		cout << "\nPlease enter " << e.name << "'s hourly income: \n";
+		//Create Employee
+		cout << "Please enter " << e.name << "'s hourly income: \n";
 		cin >> e.pHour;
 		cout << "\nPlease enter " << e.name << "'s total hours this week: \n";
 		cin >> e.hWeek;
 		cout << "\nPlease enter " << e.name << "'s marital status: \n";
 		cin >> e.married;
+		cout << "\nPlease enter " << e.name << "'s Allowances: \n";
+		cin >> e.nAllow;
 
 		if (e.hWeek > overTimeLimit)
 		{
@@ -188,32 +202,28 @@ int main()
 			e.hWeek = overTimeLimit;
 		}
 
-
 		//Totals Screen
-
 		cout << "\n" << e.name << "'s Totals\n----------\n";
 		e.update(SS, MC);
-
-
 		cout << "Regular Hours: " << e.hWeek << endl;
 		cout << "Overtime Hours: " << e.oWeek << endl << endl;
 		cout << fixed << setprecision(2);
 		cout << "Week Pay: $" << e.underPay << endl;
 		cout << "Overtime Pay: $" << e.overPay << endl;
 		cout << "Gross Pay: $" << e.totalPay << endl << endl;
-
-
 		cout << "FICA: " << e.tFICA << endl;
 		cout << "SS: " << e.tSS << endl;
-		cout << "MC: " << e.tMC << endl;
-
+		cout << "MC: " << e.tMC << endl << endl;
+		cout << "Total Deductions: " << e.totDed << endl << endl;
+		cout << "Net Pay: " << e.netPay << endl << endl;
 		cout << setprecision(0);
-
-		cout << "test";
+		cout << "-[ESC] to quit-" << endl;
+		cout << "Press any button..." << endl;
 		if (_getch() == 0x1B)
 		{
 			quit = true;
 		}
+		cout << endl;
 	}
 
 	return 0;
